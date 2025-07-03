@@ -1,0 +1,54 @@
+if ($('#backToTop').length) {
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 300) {
+            $('#backToTop').addClass('show');
+        } else {
+            $('#backToTop').removeClass('show');
+        }
+    });
+
+    // Cuộn về đầu trang khi bấm nút Back to Top
+    $('#backToTop').click(function() {
+        $('html, body').animate({scrollTop: 0}, 600);
+        return false;
+    });
+}
+
+document.querySelectorAll('.content-today').forEach(box => {
+    const content = box.querySelector('.inner-content-today');
+
+    box.addEventListener('mouseenter', () => {
+        const contentHeight = content.scrollHeight;
+        content.style.height = contentHeight + 'px'; 
+    });
+
+    box.addEventListener('mouseleave', () => {
+        content.style.height = '0';
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const paginationDots = document.querySelectorAll(".pagination-block .dot");
+
+  // Hàm cập nhật trạng thái active
+  const updateActiveDot = () => {
+    paginationDots.forEach(dot => {
+      const targetId = dot.getAttribute("nh-to-anchor");
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (rect.top <= windowHeight / 3 && rect.bottom >= windowHeight / 3) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      }
+    });
+  };
+
+  window.addEventListener("scroll", updateActiveDot);
+  updateActiveDot();
+});
